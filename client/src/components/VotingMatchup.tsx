@@ -20,7 +20,7 @@ export function VotingMatchup({ park1, park2, onVote, isVoting }: VotingMatchupP
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card
-          className="hover-elevate active-elevate-2 cursor-pointer transition-all"
+          className="hover-elevate cursor-pointer transition-all"
           onClick={() => !isVoting && onVote(park1.id, park2.id)}
           data-testid={`card-park-${park1.id}`}
         >
@@ -69,7 +69,7 @@ export function VotingMatchup({ park1, park2, onVote, isVoting }: VotingMatchupP
         </Card>
 
         <Card
-          className="hover-elevate active-elevate-2 cursor-pointer transition-all"
+          className="hover-elevate cursor-pointer transition-all"
           onClick={() => !isVoting && onVote(park2.id, park1.id)}
           data-testid={`card-park-${park2.id}`}
         >
