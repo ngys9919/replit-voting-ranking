@@ -8,9 +8,10 @@ interface VotingMatchupProps {
   park2: Park;
   onVote: (winnerId: string, loserId: string) => void;
   isVoting: boolean;
+  votingForParkId: string | null;
 }
 
-export function VotingMatchup({ park1, park2, onVote, isVoting }: VotingMatchupProps) {
+export function VotingMatchup({ park1, park2, onVote, isVoting, votingForParkId }: VotingMatchupProps) {
   return (
     <div className="w-full max-w-6xl mx-auto">
       <div className="text-center mb-8">
@@ -52,7 +53,7 @@ export function VotingMatchup({ park1, park2, onVote, isVoting }: VotingMatchupP
                 size="lg"
                 data-testid={`button-vote-${park1.id}`}
               >
-                {isVoting ? (
+                {isVoting && votingForParkId === park1.id ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Voting...
@@ -101,7 +102,7 @@ export function VotingMatchup({ park1, park2, onVote, isVoting }: VotingMatchupP
                 size="lg"
                 data-testid={`button-vote-${park2.id}`}
               >
-                {isVoting ? (
+                {isVoting && votingForParkId === park2.id ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Voting...
