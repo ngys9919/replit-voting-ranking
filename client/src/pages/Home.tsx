@@ -2,6 +2,7 @@ import { useState } from "react";
 import URLInput from "@/components/URLInput";
 import PreviewSection from "@/components/PreviewSection";
 import MetaTagsList from "@/components/MetaTagsList";
+import { SEODashboard } from "@/components/SEODashboard";
 import { type SEOAnalysis, seoAnalysisSchema } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -49,26 +50,30 @@ export default function Home() {
         </div>
 
         {analysis && (
-          <div className="grid lg:grid-cols-[1fr,400px] gap-8 items-start">
-            <div className="space-y-8">
-              <MetaTagsList tags={analysis.essentialTags} title="Essential SEO Tags" />
-              <MetaTagsList tags={analysis.openGraphTags} title="Open Graph Tags" />
-              <MetaTagsList tags={analysis.twitterTags} title="Twitter Card Tags" />
-              <MetaTagsList tags={analysis.technicalTags} title="Technical SEO" />
-            </div>
+          <div className="space-y-8">
+            <SEODashboard analysis={analysis} />
+            
+            <div className="grid lg:grid-cols-[1fr,400px] gap-8 items-start">
+              <div className="space-y-8">
+                <MetaTagsList tags={analysis.essentialTags} title="Essential SEO Tags" />
+                <MetaTagsList tags={analysis.openGraphTags} title="Open Graph Tags" />
+                <MetaTagsList tags={analysis.twitterTags} title="Twitter Card Tags" />
+                <MetaTagsList tags={analysis.technicalTags} title="Technical SEO" />
+              </div>
 
-            <div className="lg:block hidden">
-              <PreviewSection
-                title={analysis.title}
-                description={analysis.description}
-                url={analysis.url}
-                ogTitle={analysis.openGraphTags.find(t => t.name === "og:title")?.value}
-                ogDescription={analysis.openGraphTags.find(t => t.name === "og:description")?.value}
-                ogImage={analysis.ogImage}
-                twitterTitle={analysis.twitterTags.find(t => t.name === "twitter:title")?.value}
-                twitterDescription={analysis.twitterTags.find(t => t.name === "twitter:description")?.value}
-                twitterImage={analysis.twitterImage}
-              />
+              <div className="lg:block hidden">
+                <PreviewSection
+                  title={analysis.title}
+                  description={analysis.description}
+                  url={analysis.url}
+                  ogTitle={analysis.openGraphTags.find(t => t.name === "og:title")?.value}
+                  ogDescription={analysis.openGraphTags.find(t => t.name === "og:description")?.value}
+                  ogImage={analysis.ogImage}
+                  twitterTitle={analysis.twitterTags.find(t => t.name === "twitter:title")?.value}
+                  twitterDescription={analysis.twitterTags.find(t => t.name === "twitter:description")?.value}
+                  twitterImage={analysis.twitterImage}
+                />
+              </div>
             </div>
           </div>
         )}
