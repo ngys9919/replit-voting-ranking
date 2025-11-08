@@ -1,7 +1,11 @@
 import { type Park, type InsertPark, type Vote, type InsertVote, parks, votes } from "@shared/schema";
 import { drizzle } from "drizzle-orm/neon-serverless";
-import { Pool } from "@neondatabase/serverless";
+import { Pool, neonConfig } from "@neondatabase/serverless";
 import { eq, desc, sql } from "drizzle-orm";
+import ws from "ws";
+
+// Configure WebSocket for Neon in Node.js environment
+neonConfig.webSocketConstructor = ws;
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle({ client: pool });
