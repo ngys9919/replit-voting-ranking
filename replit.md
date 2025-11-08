@@ -4,6 +4,8 @@
 
 This is an SEO Meta Tag Analyzer web application that allows users to analyze and validate SEO meta tags for any website URL. The application fetches a webpage, extracts meta tags, validates them against SEO best practices, and provides visual previews of how the page appears in Google search results, Facebook shares, and Twitter cards. It provides character count analysis, status indicators (optimal/warning/missing), and actionable recommendations for improving SEO.
 
+The app features a comprehensive SEO Performance Dashboard that displays an overall SEO score via a doughnut chart, percentage scoring, performance descriptors (Excellent/Good/Fair/Needs Improvement/Poor), and KPI metrics showing the count of Passed Checks, Warnings, and Failed Checks.
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
@@ -26,6 +28,11 @@ Preferred communication style: Simple, everyday language.
 - Local component state with React hooks
 
 **Key UI Patterns**:
+- SEO Performance Dashboard displayed at the top of analysis results
+  - Doughnut chart visualization showing distribution of passed/warnings/failed checks
+  - Overall SEO score calculation: (passed + warnings * 0.5) / totalChecks * 100
+  - Performance level badges: Excellent (90%+), Good (75-89%), Fair (60-74%), Needs Improvement (40-59%), Poor (<40%)
+  - KPI metrics cards with color-coded icons for Passed Checks, Warnings, and Failed Checks
 - Two-column desktop layout: Meta tags list (60%) and preview cards (40% sticky)
 - Single-column mobile layout with stacked components
 - Preview cards showing Google Search, Facebook, and Twitter appearances
@@ -73,6 +80,7 @@ Preferred communication style: Simple, everyday language.
 - `tailwindcss` - Utility-first CSS framework
 - `class-variance-authority` - Type-safe variant styling
 - `lucide-react` - Icon library
+- `recharts` - Charting library for React (used for doughnut chart visualization in SEO dashboard)
 
 **Form & Validation**:
 - `react-hook-form` - Form state management
