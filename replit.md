@@ -54,6 +54,7 @@ Preferred communication style: Simple, everyday language.
 **Development Setup**: 
 - Vite middleware for development with HMR (Hot Module Reload)
 - Custom logging middleware for API request tracking
+- Express static middleware serves `/attached_assets` directory for park images
 - Static file serving in production
 
 **API Endpoints**:
@@ -92,9 +93,10 @@ Preferred communication style: Simple, everyday language.
 - `timestamp` (timestamp, auto-generated) - When vote was cast
 
 **Seed Data** (`server/seed-data.ts`):
-- 24 curated National Parks with descriptions and Unsplash images
+- All 63 official U.S. National Parks with descriptions and locally-hosted images
 - All parks start at 1500 ELO rating
 - Automatically seeded on server startup if database is empty
+- Images stored in `attached_assets/stock_images/` and served via Express static middleware
 
 **Storage Layer** (`server/storage.ts`):
 - `getAllParks()` - Get all parks ordered by ELO rating
@@ -128,7 +130,10 @@ Preferred communication style: Simple, everyday language.
 
 **Responsive Design**: Works on desktop, tablet, and mobile with appropriate layouts
 
-**Image Loading**: National Parks images loaded from Unsplash with proper aspect ratios
+**Image Loading**: National Parks images served locally from `attached_assets/stock_images/` directory
+- Each park has a unique, contextually accurate image
+- Express serves static assets via `/attached_assets` route
+- Eliminates external CDN dependencies and rate-limiting issues
 
 **User Feedback**: Toast notifications for successful votes and error handling
 
@@ -150,10 +155,17 @@ npm run db:push  # Sync Drizzle schema to database
 
 ## Recent Changes
 
+- **2024-11-08**: Image hosting migration and complete park data expansion
+  - Migrated from external Wikipedia Commons URLs to locally-hosted stock images
+  - Downloaded 63 unique, contextually accurate images for all official U.S. National Parks
+  - Added Express static middleware to serve `/attached_assets` directory
+  - Updated seed data to include all 63 National Parks with descriptions
+  - Resolved image rate-limiting and 404 errors by using local asset hosting
+  - Verified all images display correctly in production
+
 - **2024-11-08**: Initial implementation of National Parks voting app
   - Created database schema for parks and votes
   - Implemented ELO rating calculation system
   - Built voting UI with matchup display
   - Added rankings and recent votes displays
   - Integrated Neon PostgreSQL with transaction support
-  - Seeded database with 24 National Parks
