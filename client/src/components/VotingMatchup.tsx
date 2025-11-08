@@ -49,7 +49,7 @@ export function VotingMatchup({ park1, park2, onVote, isVoting, votingForParkId 
                 <span className="font-semibold" data-testid={`text-park-elo-${park1.id}`}>{park1.eloRating}</span>
               </div>
               <Button
-                disabled={isVoting}
+                disabled={isVoting && votingForParkId === park1.id}
                 size="lg"
                 data-testid={`button-vote-${park1.id}`}
               >
@@ -98,7 +98,7 @@ export function VotingMatchup({ park1, park2, onVote, isVoting, votingForParkId 
                 <span className="font-semibold" data-testid={`text-park-elo-${park2.id}`}>{park2.eloRating}</span>
               </div>
               <Button
-                disabled={isVoting}
+                disabled={isVoting && votingForParkId === park2.id}
                 size="lg"
                 data-testid={`button-vote-${park2.id}`}
               >
