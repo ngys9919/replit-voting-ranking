@@ -153,7 +153,28 @@ npm run db:push  # Sync Drizzle schema to database
 - `DATABASE_URL` - PostgreSQL connection string (automatically set by Replit)
 - Other Neon database variables set automatically
 
+### Production Database Setup
+**Important**: Development and production databases are separate in Replit deployments.
+
+- **Development database**: Used when running locally (preview)
+- **Production database**: Used by your published/deployed app
+
+**First-time deployment steps**:
+1. A production PostgreSQL database has been provisioned
+2. Database schema is configured to sync automatically
+3. **You must republish/redeploy** your app after database creation
+4. The seed function will automatically populate all 63 National Parks on startup
+5. After republishing, your deployed app will show all park data
+
+The seed function (`storage.seedParks`) runs automatically when the server starts and checks if parks exist before inserting, so it's safe to redeploy multiple times.
+
 ## Recent Changes
+
+- **2024-11-08**: Created production database and fixed deployment setup
+  - **Production PostgreSQL database** provisioned for deployed app
+  - Database schema synced to production using `npm run db:push`
+  - Updated documentation with production database setup instructions
+  - **Action Required**: Republish app to trigger automatic seed of 63 National Parks
 
 - **2024-11-08**: Fixed deployment issues and updated page title
   - Updated HTML page title from "SEO Meta Tag Analyzer" to "National Parks Ranker"
