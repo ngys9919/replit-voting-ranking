@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -22,6 +23,7 @@ interface VoteWithDetails {
 
 export default function Home() {
   const { toast } = useToast();
+  const [votingForParkId, setVotingForParkId] = useState<string | null>(null);
 
   // Fetch current matchup
   const { data: matchup, isLoading: isLoadingMatchup, refetch: refetchMatchup } = useQuery<Matchup>({
@@ -45,6 +47,9 @@ export default function Home() {
       return response.json();
     },
     onSuccess: () => {
+      // Clear voting state
+      setVotingForParkId(null);
+      
       // Refetch all data after voting
       queryClient.invalidateQueries({ queryKey: ["/api/matchup"] });
       queryClient.invalidateQueries({ queryKey: ["/api/rankings"] });
@@ -59,6 +64,9 @@ export default function Home() {
       refetchMatchup();
     },
     onError: (error: Error) => {
+      // Clear voting state on error
+      setVotingForParkId(null);
+      
       toast({
         title: "Vote Failed",
         description: error.message || "Failed to record your vote. Please try again.",
@@ -68,6 +76,7 @@ export default function Home() {
   });
 
   const handleVote = (winnerId: string, loserId: string) => {
+    setVotingForParkId(winnerId);
     voteMutation.mutate({ winnerId, loserId });
   };
 
@@ -103,6 +112,7 @@ export default function Home() {
                 park2={matchup.park2}
                 onVote={handleVote}
                 isVoting={voteMutation.isPending}
+                votingForParkId={votingForParkId}
               />
               <div className="text-center mt-6">
                 <Button
