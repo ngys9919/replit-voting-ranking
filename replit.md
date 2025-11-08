@@ -155,6 +155,18 @@ npm run db:push  # Sync Drizzle schema to database
 
 ## Recent Changes
 
+- **2024-11-08**: Fixed deployment issues and updated page title
+  - Updated HTML page title from "SEO Meta Tag Analyzer" to "National Parks Ranker"
+  - Fixed deployment asset serving: Images and data now show correctly when deployed
+  - Modified build script to copy `attached_assets` to `dist/public/` during build
+  - Updated server to conditionally serve assets: development from workspace, production from build output
+  - Deployment now includes all park images and data in the production bundle
+
+- **2024-11-08**: Fixed vote button UI bug
+  - Only the clicked vote button now shows disabled state and loading spinner
+  - Other vote button remains stable with no visual changes (no blink)
+  - Prevents confusing UX where both buttons appeared to be affected
+
 - **2024-11-08**: Image hosting migration and complete park data expansion
   - Migrated from external Wikipedia Commons URLs to locally-hosted stock images
   - Downloaded 63 unique, contextually accurate images for all official U.S. National Parks

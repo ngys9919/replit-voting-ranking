@@ -17,7 +17,11 @@ app.use(express.json({
 }));
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/attached_assets', express.static(path.join(import.meta.dirname, '..', 'attached_assets')));
+// In development, serve attached_assets from workspace
+// In production, attached_assets are copied to dist/public during build and served by serveStatic
+if (app.get("env") === "development") {
+  app.use('/attached_assets', express.static(path.join(import.meta.dirname, '..', 'attached_assets')));
+}
 
 app.use((req, res, next) => {
   const start = Date.now();
