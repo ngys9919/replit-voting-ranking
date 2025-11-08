@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import URLInput from "@/components/URLInput";
 import PreviewSection from "@/components/PreviewSection";
 import MetaTagsList from "@/components/MetaTagsList";
 import { SEODashboard } from "@/components/SEODashboard";
+import { CategoryOverview } from "@/components/CategoryOverview";
 import { type SEOAnalysis, seoAnalysisSchema } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -11,6 +12,11 @@ import { useToast } from "@/hooks/use-toast";
 export default function Home() {
   const [analysis, setAnalysis] = useState<SEOAnalysis | null>(null);
   const { toast } = useToast();
+
+  const essentialRef = useRef<HTMLDivElement>(null);
+  const opengraphRef = useRef<HTMLDivElement>(null);
+  const twitterRef = useRef<HTMLDivElement>(null);
+  const technicalRef = useRef<HTMLDivElement>(null);
 
   const analyzeMutation = useMutation({
     mutationFn: async (url: string) => {
@@ -34,6 +40,27 @@ export default function Home() {
     analyzeMutation.mutate(url);
   };
 
+  const scrollToCategory = (categoryId: string) => {
+    const refs: Record<string, React.RefObject<HTMLDivElement>> = {
+      essential: essentialRef,
+      opengraph: opengraphRef,
+      twitter: twitterRef,
+      technical: technicalRef,
+    };
+
+    const ref = refs[categoryId];
+    if (ref?.current) {
+      const headerOffset = 80;
+      const elementPosition = ref.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
@@ -53,12 +80,22 @@ export default function Home() {
           <div className="space-y-8">
             <SEODashboard analysis={analysis} />
             
+            <CategoryOverview analysis={analysis} onCategoryClick={scrollToCategory} />
+            
             <div className="grid lg:grid-cols-[1fr,400px] gap-8 items-start">
               <div className="space-y-8">
-                <MetaTagsList tags={analysis.essentialTags} title="Essential SEO Tags" />
-                <MetaTagsList tags={analysis.openGraphTags} title="Open Graph Tags" />
-                <MetaTagsList tags={analysis.twitterTags} title="Twitter Card Tags" />
-                <MetaTagsList tags={analysis.technicalTags} title="Technical SEO" />
+                <div ref={essentialRef}>
+                  <MetaTagsList tags={analysis.essentialTags} title="Essential SEO Tags" />
+                </div>
+                <div ref={opengraphRef}>
+                  <MetaTagsList tags={analysis.openGraphTags} title="Open Graph Tags" />
+                </div>
+                <div ref={twitterRef}>
+                  <MetaTagsList tags={analysis.twitterTags} title="Twitter Card Tags" />
+                </div>
+                <div ref={technicalRef}>
+                  <MetaTagsList tags={analysis.technicalTags} title="Technical SEO" />
+                </div>
               </div>
 
               <div className="lg:block hidden">
